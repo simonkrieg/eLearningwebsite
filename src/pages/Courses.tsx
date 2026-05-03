@@ -36,7 +36,6 @@ export default function Courses() {
   const [showFilters, setShowFilters] = useState(false);
 
   const activeCategory = searchParams.get('category') ?? '';
-  const activeDifficulty = searchParams.get('difficulty') ?? '';
 
   useEffect(() => {
     Promise.all([
@@ -56,10 +55,9 @@ export default function Courses() {
     return courses.filter(c => {
       const matchSearch = !search || c.title.toLowerCase().includes(search.toLowerCase()) || c.short_description.toLowerCase().includes(search.toLowerCase());
       const matchCat = !activeCategory || (c.category as Category | undefined)?.slug === activeCategory;
-      const matchDiff = !activeDifficulty || c.difficulty_level === activeDifficulty;
-      return matchSearch && matchCat && matchDiff;
+      return matchSearch && matchCat;
     });
-  }, [courses, search, activeCategory, activeDifficulty]);
+  }, [courses, search, activeCategory]);
 
   function setParam(key: string, value: string) {
     const next = new URLSearchParams(searchParams);
@@ -72,7 +70,7 @@ export default function Courses() {
     setSearchParams({});
   }
 
-  const hasFilters = search || activeCategory || activeDifficulty;
+  const hasFilters = search || activeCategory;
 
   return (
     <div className="pt-16 bg-[#f5f5f0] min-h-screen">
@@ -145,26 +143,6 @@ export default function Courses() {
                 </div>
               </div>
 
-              <div>
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Difficulty</h3>
-                <div className="space-y-0.5">
-                  <button
-                    onClick={() => setParam('difficulty', '')}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${!activeDifficulty ? 'bg-sky-50 text-sky-700 font-semibold' : 'text-gray-600 hover:bg-white'}`}
-                  >
-                    All levels
-                  </button>
-                  {(['beginner', 'intermediate', 'advanced'] as const).map(d => (
-                    <button
-                      key={d}
-                      onClick={() => setParam('difficulty', d)}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm capitalize transition-colors ${activeDifficulty === d ? 'bg-sky-50 text-sky-700 font-semibold' : 'text-gray-600 hover:bg-white'}`}
-                    >
-                      {d.charAt(0).toUpperCase() + d.slice(1)}
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
           </aside>
 
