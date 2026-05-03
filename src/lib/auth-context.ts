@@ -8,7 +8,7 @@ export type AuthContextType = {
   adminProfile: AdminProfile | null;
   isAdmin: boolean;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
+  signIn: (email: string, password: string) => Promise<{ error: Error | null; isAdmin: boolean }>;
   signOut: () => Promise<void>;
 };
 

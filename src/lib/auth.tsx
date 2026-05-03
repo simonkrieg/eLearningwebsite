@@ -17,13 +17,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .eq('id', userId)
       .maybeSingle();
     setAdminProfile(data);
+    return data;
   }
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      if (session?.user) fetchAdminProfile(session.user.id);
+      if (session?.user) {
+        await fetchAdminProfile(session.user.id);
+      } else {
+        setAdminProfile(null);
+      }
       setLoading(false);
     });
 
@@ -41,8 +46,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   async function signIn(email: string, password: string) {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    return { error };
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return { error, isAdmin: false };
+
+    const profile = data.user ? await fetchAdminProfile(data.user.id) : null;
+    if (!profile) {
+      await supabase.auth.signOut();
+      return { error: new Error('This account is not configured as an admin.'), isAdmin: false };
+    }
+
+    return { error: null, isAdmin: true };
   }
 
   async function signOut() {

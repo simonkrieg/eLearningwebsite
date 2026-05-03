@@ -17,11 +17,15 @@ export default function AdminLogin() {
     e.preventDefault();
     setError('');
     setSubmitting(true);
-    const { error } = await signIn(email, password);
+    const { error, isAdmin } = await signIn(email, password);
     if (error) {
-      setError('Invalid email or password. Please try again.');
+      setError(error.message === 'This account is not configured as an admin.'
+        ? error.message
+        : 'Invalid email or password. Please try again.');
       setSubmitting(false);
+      return;
     }
+    if (!isAdmin) setSubmitting(false);
   }
 
   return (
