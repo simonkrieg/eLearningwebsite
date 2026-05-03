@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Linkedin, CheckCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import type { TeamMember } from '../lib/supabase';
+import { mapSections, pageText, type PageSections } from '../lib/pages';
 
 const VALUES = [
   { title: 'Contextualised Content', desc: 'We design every course around your industry, your terminology, and your real-world scenarios — not generic templates.' },
@@ -13,10 +14,16 @@ const VALUES = [
 
 export default function About() {
   const [team, setTeam] = useState<TeamMember[]>([]);
+  const [sections, setSections] = useState<PageSections>({});
 
   useEffect(() => {
+    supabase.from('pages').select('*').eq('page', 'about').then(({ data }) => setSections(mapSections(data)));
     supabase.from('team_members').select('*').eq('is_published', true).order('sort_order').then(({ data }) => { if (data) setTeam(data); });
   }, []);
+
+  const hero = sections.hero;
+  const story = sections.story;
+  const cta = sections.cta;
 
   return (
     <div className="pt-16">
@@ -24,12 +31,12 @@ export default function About() {
       <section className="bg-gradient-to-br from-gray-900 to-sky-950 py-24 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <p className="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">About Us</p>
+            <p className="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">{pageText(hero, 'subtitle', 'About Us')}</p>
             <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6 leading-tight">
-              Adelaide's eLearning specialists
+              {pageText(hero, 'title', "Adelaide's eLearning specialists")}
             </h1>
             <p className="text-lg text-gray-300 leading-relaxed">
-              We are based in Adelaide, South Australia and we provide affordable solutions to online education. We specialise in developing targeted and contextualised online content and learning systems for a variety of industry settings.
+              {pageText(hero, 'body', 'We are based in Adelaide, South Australia and we provide affordable solutions to online education. We specialise in developing targeted and contextualised online content and learning systems for a variety of industry settings.')}
             </p>
           </div>
         </div>
@@ -40,15 +47,13 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <p className="text-sky-600 font-semibold text-sm uppercase tracking-wider mb-3">Our Story</p>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Built on a belief that good training changes organisations</h2>
-              <div className="space-y-4 text-gray-600 leading-relaxed">
-                <p>E-Learning Creations was founded on a simple premise: Australian organisations deserve access to high-quality, contextualised online learning that doesn't cost a fortune.</p>
-                <p>We noticed that most eLearning providers offered generic, one-size-fits-all content that failed to resonate with learners. Completion rates were low. Knowledge transfer was poor. Training dollars were wasted.</p>
-                <p>We set out to do things differently — working closely with each client to understand their industry, their culture, and their specific learning objectives before a single line of content is written.</p>
+              <p className="text-sky-600 font-semibold text-sm uppercase tracking-wider mb-3">{pageText(story, 'subtitle', 'Our Story')}</p>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">{pageText(story, 'title', 'Built on a belief that good training changes organisations')}</h2>
+              <div className="space-y-4 text-gray-600 leading-relaxed whitespace-pre-line">
+                {pageText(story, 'body', "E-Learning Creations was founded on a simple premise: Australian organisations deserve access to high-quality, contextualised online learning that doesn't cost a fortune.\n\nWe noticed that most eLearning providers offered generic, one-size-fits-all content that failed to resonate with learners. Completion rates were low. Knowledge transfer was poor. Training dollars were wasted.\n\nWe set out to do things differently, working closely with each client to understand their industry, their culture, and their specific learning objectives before a single line of content is written.")}
               </div>
-              <Link to="/contact" className="inline-flex items-center gap-2 mt-8 px-6 py-3 bg-sky-600 text-white font-semibold rounded-xl hover:bg-sky-700 transition-colors group">
-                Work with us <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <Link to={pageText(story, 'cta_url', '/contact')} className="inline-flex items-center gap-2 mt-8 px-6 py-3 bg-sky-600 text-white font-semibold rounded-xl hover:bg-sky-700 transition-colors group">
+                {pageText(story, 'cta_label', 'Work with us')} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
             <div className="relative">
@@ -127,10 +132,10 @@ export default function About() {
       {/* CTA */}
       <section className="py-20 bg-sky-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Let's build something great together</h2>
-          <p className="text-sky-100 text-lg mb-8">Ready to transform how your organisation learns? We'd love to hear about your project.</p>
-          <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-sky-700 font-bold rounded-xl hover:bg-sky-50 transition-colors group">
-            Get in touch <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          <h2 className="text-3xl font-bold text-white mb-4">{pageText(cta, 'title', "Let's build something great together")}</h2>
+          <p className="text-sky-100 text-lg mb-8">{pageText(cta, 'body', "Ready to transform how your organisation learns? We'd love to hear about your project.")}</p>
+          <Link to={pageText(cta, 'cta_url', '/contact')} className="inline-flex items-center gap-2 px-8 py-4 bg-white text-sky-700 font-bold rounded-xl hover:bg-sky-50 transition-colors group">
+            {pageText(cta, 'cta_label', 'Get in touch')} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </section>

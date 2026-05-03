@@ -1,12 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { mapSections, pageText, type PageSections } from '../lib/pages';
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', organisation: '', message: '', interest: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [sections, setSections] = useState<PageSections>({});
+
+  useEffect(() => {
+    supabase.from('pages').select('*').eq('page', 'contact').then(({ data }) => setSections(mapSections(data)));
+  }, []);
+
+  const hero = sections.hero;
+  const info = sections.info;
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -50,9 +59,9 @@ export default function Contact() {
       <section className="bg-gradient-to-br from-gray-900 to-sky-950 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
-            <p className="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Contact Us</p>
-            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Let's start a conversation</h1>
-            <p className="text-lg text-gray-300">Tell us about your training needs and we'll tailor a solution that works for your organisation.</p>
+            <p className="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">{pageText(hero, 'subtitle', 'Contact Us')}</p>
+            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">{pageText(hero, 'title', "Let's start a conversation")}</h1>
+            <p className="text-lg text-gray-300">{pageText(hero, 'body', "Tell us about your training needs and we'll tailor a solution that works for your organisation.")}</p>
           </div>
         </div>
       </section>
@@ -63,7 +72,7 @@ export default function Contact() {
             {/* Info */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-xl font-bold text-gray-900 mb-6">Get in touch</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-6">{pageText(info, 'title', 'Get in touch')}</h2>
                 <div className="space-y-5">
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 bg-sky-50 rounded-xl flex items-center justify-center shrink-0">
@@ -97,7 +106,7 @@ export default function Contact() {
 
               <div className="bg-sky-600 rounded-2xl p-6 text-white">
                 <h3 className="font-bold mb-2">Not sure where to start?</h3>
-                <p className="text-sky-100 text-sm leading-relaxed">We offer a free 30-minute discovery call to understand your needs before proposing any solution.</p>
+                <p className="text-sky-100 text-sm leading-relaxed">{pageText(info, 'body', 'We offer a free 30-minute discovery call to understand your needs before proposing any solution.')}</p>
               </div>
             </div>
 

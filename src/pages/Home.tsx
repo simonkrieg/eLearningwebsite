@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import type { Course, Testimonial, Category } from '../lib/supabase';
+import { mapSections, pageText, type PageSections } from '../lib/pages';
 import { CourseCard } from './Courses';
 
 const ICON_MAP: Record<string, React.ElementType> = {
@@ -46,12 +47,18 @@ export default function Home() {
   const [featuredCourses, setFeaturedCourses] = useState<Course[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [sections, setSections] = useState<PageSections>({});
 
   useEffect(() => {
+    supabase.from('pages').select('*').eq('page', 'home').then(({ data }) => setSections(mapSections(data)));
     supabase.from('courses').select('*, category:categories(*)').eq('is_published', true).eq('is_featured', true).order('sort_order').limit(3).then(({ data }) => { if (data) setFeaturedCourses(data); });
     supabase.from('testimonials').select('*').eq('is_published', true).order('sort_order').limit(3).then(({ data }) => { if (data) setTestimonials(data); });
     supabase.from('categories').select('*').order('sort_order').limit(6).then(({ data }) => { if (data) setCategories(data); });
   }, []);
+
+  const hero = sections.hero;
+  const whyUs = sections.why_us;
+  const cta = sections.cta;
 
   return (
     <>
@@ -67,17 +74,17 @@ export default function Home() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 bg-sky-500/20 border border-sky-500/30 text-sky-300 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
-              Based in Adelaide, South Australia
+              {pageText(hero, 'subtitle', 'Based in Adelaide, South Australia')}
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6">
-              Online Learning That <span className="text-sky-400">Actually Works</span> for Your Organisation
+              {pageText(hero, 'title', 'Online Learning That Actually Works for Your Organisation')}
             </h1>
             <p className="text-lg sm:text-xl text-gray-300 leading-relaxed mb-10 max-w-2xl">
-              A fresh and affordable approach to online learning and development. We build contextualised eLearning content and learning management systems tailored to your industry, your people, and your outcomes.
+              {pageText(hero, 'body', 'A fresh and affordable approach to online learning and development. We build contextualised eLearning content and learning management systems tailored to your industry, your people, and your outcomes.')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/courses" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-xl transition-all hover:shadow-lg hover:shadow-sky-600/30 group">
-                Browse Courses
+              <Link to={pageText(hero, 'cta_url', '/courses')} className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-xl transition-all hover:shadow-lg hover:shadow-sky-600/30 group">
+                {pageText(hero, 'cta_label', 'Browse Courses')}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold rounded-xl transition-all backdrop-blur-sm">
@@ -105,9 +112,9 @@ export default function Home() {
       <section className="py-20 lg:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <p className="text-sky-600 font-semibold text-sm uppercase tracking-wider mb-3">Why E-Learning Creations</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">The smarter way to train your team</h2>
-            <p className="text-lg text-gray-500 max-w-2xl mx-auto">We combine instructional design expertise with deep industry knowledge to deliver training that sticks.</p>
+            <p className="text-sky-600 font-semibold text-sm uppercase tracking-wider mb-3">{pageText(whyUs, 'subtitle', 'Why E-Learning Creations')}</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">{pageText(whyUs, 'title', 'The smarter way to train your team')}</h2>
+            <p className="text-lg text-gray-500 max-w-2xl mx-auto">{pageText(whyUs, 'body', 'We combine instructional design expertise with deep industry knowledge to deliver training that sticks.')}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {WHY_ITEMS.map(({ icon: Icon, title, desc }) => (
@@ -231,13 +238,13 @@ export default function Home() {
       {/* CTA */}
       <section className="py-20 lg:py-28 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-5">Ready to transform your training?</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-5">{pageText(cta, 'title', 'Ready to transform your training?')}</h2>
           <p className="text-lg text-gray-500 mb-10 max-w-2xl mx-auto">
-            Whether you need a single course or a complete learning system, we'll build something that fits your organisation perfectly.
+            {pageText(cta, 'body', "Whether you need a single course or a complete learning system, we'll build something that fits your organisation perfectly.")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-xl transition-all hover:shadow-lg group">
-              Start a conversation
+            <Link to={pageText(cta, 'cta_url', '/contact')} className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-xl transition-all hover:shadow-lg group">
+              {pageText(cta, 'cta_label', 'Start a conversation')}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link to="/courses" className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-gray-200 hover:border-sky-200 text-gray-700 hover:text-sky-700 font-semibold rounded-xl transition-all">
@@ -249,4 +256,3 @@ export default function Home() {
     </>
   );
 }
-

@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import type { Course, Category } from '../lib/supabase';
+import { mapSections, pageText, type PageSections } from '../lib/pages';
 
 const CATEGORY_ACCENT: Record<string, { bg: string; text: string }> = {
   'aged-care-disability':           { bg: 'bg-rose-50',   text: 'text-rose-600' },
@@ -34,14 +35,17 @@ export default function Courses() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [sections, setSections] = useState<PageSections>({});
 
   const activeCategory = searchParams.get('category') ?? '';
 
   useEffect(() => {
     Promise.all([
+      supabase.from('pages').select('*').eq('page', 'courses'),
       supabase.from('courses').select('*, category:categories(*)').eq('is_published', true).order('sort_order'),
       supabase.from('categories').select('*').order('sort_order'),
-    ]).then(([coursesRes, catsRes]) => {
+    ]).then(([pagesRes, coursesRes, catsRes]) => {
+      setSections(mapSections(pagesRes.data));
       setCourses(coursesRes.data ?? []);
       setCategories(catsRes.data ?? []);
     }).catch(() => {
@@ -71,6 +75,7 @@ export default function Courses() {
   }
 
   const hasFilters = search || activeCategory;
+  const hero = sections.hero;
 
   return (
     <div className="pt-16 bg-[#f5f5f0] min-h-screen">
@@ -78,9 +83,9 @@ export default function Courses() {
       <section className="bg-gradient-to-br from-gray-900 to-slate-800 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
-            <p className="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Course Catalogue</p>
-            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Find the right course for your team</h1>
-            <p className="text-lg text-gray-300">Browse our catalogue of professionally developed eLearning courses, aligned with Australia's most in-demand industries and national priority training areas.</p>
+            <p className="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">{pageText(hero, 'subtitle', 'Course Catalogue')}</p>
+            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">{pageText(hero, 'title', 'Find the right course for your team')}</h1>
+            <p className="text-lg text-gray-300">{pageText(hero, 'body', "Browse our catalogue of professionally developed eLearning courses, aligned with Australia's most in-demand industries and national priority training areas.")}</p>
           </div>
         </div>
       </section>
