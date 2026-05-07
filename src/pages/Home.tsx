@@ -77,7 +77,8 @@ export default function Home() {
               {pageText(hero, 'subtitle', 'Based in Adelaide, South Australia')}
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6">
-              {pageText(hero, 'title', 'Online Learning That Actually Works for Your Organisation')}
+              <span className="block text-sky-400">E-Learning Creations</span>
+              <span className="block mt-2">{pageText(hero, 'title', 'Online Learning That Actually Works for Your Organisation')}</span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-300 leading-relaxed mb-10 max-w-2xl">
               {pageText(hero, 'body', 'A fresh and affordable approach to online learning and development. We build contextualised eLearning content and learning management systems tailored to your industry, your people, and your outcomes.')}
