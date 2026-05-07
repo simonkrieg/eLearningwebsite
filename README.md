@@ -42,7 +42,8 @@ For Netlify, `public/_redirects` handles client-side routing. For Vercel, `verce
 
 ### cPanel / Apache
 
-Build locally, then upload the contents of `dist` into the domain document root, usually `public_html`:
+Build locally, then upload the contents of `dist` into the domain document root, usually `public_html`.
+For the pre-launch test domain, deploy to `/home/elel9184/test.elearningcreations.com.au/`:
 
 ```bash
 npm run build
