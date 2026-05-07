@@ -32,14 +32,32 @@ jobs:
       - name: Check and build
         run: npm run deploy:check
 
-      - name: Upload dist to cPanel FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
-          server: ftp.elearningcreations.com.au
-          username: simon@elearningcreations.com.au
-          password: ${{ secrets.CPANEL_FTP_PASSWORD }}
-          port: 21
-          protocol: ftp
-          local-dir: ./dist/
-          server-dir: ../test.elearningcreations.com.au/
-          log-level: verbose
+          name: dist
+          path: dist/
+
+      - name: Upload dist to cPanel FTP
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y lftp
+          echo "Built files:"
+          find dist -maxdepth 2 -type f -print
+          lftp -u "simon@elearningcreations.com.au","${CPANEL_FTP_PASSWORD}" ftp://ftp.elearningcreations.com.au <<'FTP'
+          set ftp:ssl-allow no
+          set net:timeout 30
+          set net:max-retries 2
+          pwd
+          cls -la
+          cd ../test.elearningcreations.com.au
+          pwd
+          cls -la
+          mirror --reverse --verbose --only-newer dist .
+          cls -la
+          bye
+          FTP
+        env:
+          CPANEL_FTP_PASSWORD: ${{ secrets.CPANEL_FTP_PASSWORD }}
