@@ -7,7 +7,8 @@ import {
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import type { Course, Category } from '../lib/supabase';
-import { mapSections, pageText, type PageSections } from '../lib/pages';
+import { mapSections, type PageSections } from '../lib/pages';
+import { PageHero } from '../components/PageHero';
 
 const CATEGORY_ACCENT: Record<string, { bg: string; text: string }> = {
   'aged-care-disability':           { bg: 'bg-rose-50',   text: 'text-rose-600' },
@@ -80,15 +81,14 @@ export default function Courses() {
   return (
     <div className="pt-16 bg-[#f5f5f0] min-h-screen">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-gray-900 to-slate-800 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <p className="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">{pageText(hero, 'subtitle', 'Course Catalogue')}</p>
-            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">{pageText(hero, 'title', 'Find the right course for your team')}</h1>
-            <p className="text-lg text-gray-300">{pageText(hero, 'body', "Browse our catalogue of professionally developed eLearning courses, aligned with Australia's most in-demand industries and national priority training areas.")}</p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        section={hero}
+        subtitleFallback="Course Catalogue"
+        titleFallback="Find the right course for your team"
+        bodyFallback="Browse our catalogue of professionally developed eLearning courses, aligned with Australia's most in-demand industries and national priority training areas."
+        imageFallback="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1600"
+        className="py-20 lg:py-28"
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Search & filter bar */}

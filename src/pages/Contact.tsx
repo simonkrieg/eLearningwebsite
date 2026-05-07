@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { mapSections, pageText, type PageSections } from '../lib/pages';
+import { PageHero } from '../components/PageHero';
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', organisation: '', message: '', interest: '' });
@@ -56,15 +57,14 @@ export default function Contact() {
   return (
     <div className="pt-16">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-gray-900 to-sky-950 py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <p className="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">{pageText(hero, 'subtitle', 'Contact Us')}</p>
-            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">{pageText(hero, 'title', "Let's start a conversation")}</h1>
-            <p className="text-lg text-gray-300">{pageText(hero, 'body', "Tell us about your training needs and we'll tailor a solution that works for your organisation.")}</p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        section={hero}
+        subtitleFallback="Contact Us"
+        titleFallback="Let's start a conversation"
+        bodyFallback="Tell us about your training needs and we'll tailor a solution that works for your organisation."
+        imageFallback="https://images.pexels.com/photos/3184460/pexels-photo-3184460.jpeg?auto=compress&cs=tinysrgb&w=1600"
+        className="py-24"
+      />
 
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

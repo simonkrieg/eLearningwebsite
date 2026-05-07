@@ -4,6 +4,7 @@ import { ArrowRight, Linkedin, CheckCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import type { TeamMember } from '../lib/supabase';
 import { mapSections, pageText, type PageSections } from '../lib/pages';
+import { PageHero } from '../components/PageHero';
 
 const VALUES = [
   { title: 'Contextualised Content', desc: 'We design every course around your industry, your terminology, and your real-world scenarios — not generic templates.' },
@@ -28,19 +29,13 @@ export default function About() {
   return (
     <div className="pt-16">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-gray-900 to-sky-950 py-24 lg:py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <p className="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">{pageText(hero, 'subtitle', 'About Us')}</p>
-            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6 leading-tight">
-              {pageText(hero, 'title', "Adelaide's eLearning specialists")}
-            </h1>
-            <p className="text-lg text-gray-300 leading-relaxed">
-              {pageText(hero, 'body', 'We are based in Adelaide, South Australia and we provide affordable solutions to online education. We specialise in developing targeted and contextualised online content and learning systems for a variety of industry settings.')}
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        section={hero}
+        subtitleFallback="About Us"
+        titleFallback="Adelaide's eLearning specialists"
+        bodyFallback="We are based in Adelaide, South Australia and we provide affordable solutions to online education. We specialise in developing targeted and contextualised online content and learning systems for a variety of industry settings."
+        imageFallback="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1600"
+      />
 
       {/* Story */}
       <section className="py-20 lg:py-28 bg-white">
