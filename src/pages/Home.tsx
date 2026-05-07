@@ -43,6 +43,8 @@ const WHY_ITEMS = [
   },
 ];
 
+const SHOW_CLIENT_STORIES = false;
+
 export default function Home() {
   const [featuredCourses, setFeaturedCourses] = useState<Course[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -195,7 +197,7 @@ export default function Home() {
       )}
 
       {/* Testimonials */}
-      {testimonials.length > 0 && (
+      {SHOW_CLIENT_STORIES && testimonials.length > 0 && (
         <section className="py-20 lg:py-28 bg-sky-950">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-14">
