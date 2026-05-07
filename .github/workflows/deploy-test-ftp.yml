@@ -41,5 +41,5 @@ jobs:
           port: 21
           protocol: ftp
           local-dir: ./dist/
-          server-dir: ./
+          server-dir: ../test.elearningcreations.com.au/
           log-level: verbose
