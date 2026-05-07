@@ -85,7 +85,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to={pageText(hero, 'cta_url', '/courses')} className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-xl transition-all hover:shadow-lg hover:shadow-sky-600/30 group">
-                {pageText(hero, 'cta_label', 'Browse Courses')}
+                {pageText(hero, 'cta_label', 'Browse Ideas')}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold rounded-xl transition-all backdrop-blur-sm">
