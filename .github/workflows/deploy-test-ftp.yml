@@ -1,12 +1,15 @@
 name: Deploy test site by FTP
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   VITE_SUPABASE_URL: https://yxdyuyvqevusxtvcmozc.supabase.co
-  VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+  VITE_SUPABASE_ANON_KEY: sb_publishable_6pGvU3_nX5UkFHP047FnJg_C717pJrh
 
 jobs:
   build-and-deploy:
