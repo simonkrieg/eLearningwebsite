@@ -52,7 +52,7 @@ jobs:
           set net:max-retries 2
           pwd
           cls -la
-          cd ../test.elearningcreations.com.au
+          cd ../../test.elearningcreations.com.au
           pwd
           cls -la
           mirror --reverse --verbose --only-newer dist .
