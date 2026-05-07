@@ -14,10 +14,10 @@ const ICON_MAP: Record<string, React.ElementType> = {
 };
 
 const STAT_ITEMS = [
-  { value: '500+', label: 'Courses Delivered' },
-  { value: '10k+', label: 'Learners Trained' },
-  { value: '98%', label: 'Completion Rate' },
-  { value: '15+', label: 'Years Experience' },
+  { value: '200+', label: 'Courses Delivered' },
+  { value: '200,000K+', label: 'Learners Trained' },
+  { value: 'High', label: 'Completion Rate' },
+  { value: '20+', label: 'Years Experience' },
 ];
 
 const WHY_ITEMS = [
