@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/elel9184/public_html/
+    - /bin/rm -rf dist
+    - npm install
+    - npm run build
+    - /bin/find $DEPLOYPATH -mindepth 1 -maxdepth 1 ! -name '.well-known' -exec /bin/rm -rf {} +
+    - /bin/cp -R dist/. $DEPLOYPATH
