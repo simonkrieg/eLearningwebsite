@@ -15,7 +15,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
 
 const STAT_ITEMS = [
   { value: '200+', label: 'Courses Delivered' },
-  { value: '200,000K+', label: 'Learners Trained' },
+  { value: '200K+', label: 'Learners Trained' },
   { value: 'High', label: 'Completion Rate' },
   { value: '20+', label: 'Years Experience' },
 ];
