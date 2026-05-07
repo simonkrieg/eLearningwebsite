@@ -3,6 +3,9 @@ name: Deploy test site by FTP
 on:
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build-and-deploy:
     name: Build and upload test site
@@ -27,10 +30,10 @@ jobs:
       - name: Upload dist to cPanel FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.CPANEL_FTP_SERVER }}
-          username: ${{ secrets.CPANEL_FTP_USERNAME }}
+          server: ftp.elearningcreations.com.au
+          username: simon@elearningcreations.com.au
           password: ${{ secrets.CPANEL_FTP_PASSWORD }}
           port: 21
           protocol: ftp
           local-dir: ./dist/
-          server-dir: ${{ secrets.CPANEL_FTP_SERVER_DIR }}
+          server-dir: test.elearningcreations.com.au/
