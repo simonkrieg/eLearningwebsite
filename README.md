@@ -40,6 +40,18 @@ The build output is `dist`.
 
 For Netlify, `public/_redirects` handles client-side routing. For Vercel, `vercel.json` handles the same SPA fallback.
 
+### cPanel / Apache
+
+Build locally, then upload the contents of `dist` into the domain document root, usually `public_html`:
+
+```bash
+npm run build
+```
+
+The production bundle includes `dist/.htaccess`, which routes direct page refreshes such as `/courses/example-course` back to `index.html`.
+
+Before replacing the current site, back up the existing `public_html` files. Upload the contents inside `dist`, not the `dist` folder itself.
+
 ## Supabase
 
 The Supabase CLI is installed as a project dev dependency.
