@@ -5,6 +5,8 @@ on:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  VITE_SUPABASE_URL: https://yxdyuyvqevusxtvcmozc.supabase.co
+  VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
 jobs:
   build-and-deploy:
@@ -36,4 +38,5 @@ jobs:
           port: 21
           protocol: ftp
           local-dir: ./dist/
-          server-dir: test.elearningcreations.com.au/
+          server-dir: /test.elearningcreations.com.au/
+          log-level: verbose
