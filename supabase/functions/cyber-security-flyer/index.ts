@@ -421,7 +421,7 @@ const HTML = `<!DOCTYPE html>
       <div class="footer-brand">Skill<em>Edge</em> Training</div>
       <div class="footer-sub">contact@skilledge.com.au &nbsp;&bull;&nbsp; 1300 000 000 &nbsp;&bull;&nbsp; www.skilledge.com.au</div>
     </div>
-    <a class="enrol-btn" href="#">Enquire to Enrol</a>
+    <a class="enrol-btn" href="#">Contact Us for a Quote</a>
   </div>
 
 </div>

@@ -113,7 +113,7 @@ export default function CourseDetail() {
               to="/contact"
               className="inline-flex items-center gap-2 px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white font-semibold rounded-xl transition-colors duration-200"
             >
-              Enquire to Enrol <ArrowRight className="w-4 h-4" />
+              Contact Us for a Quote <ArrowRight className="w-4 h-4" />
             </Link>
             {course.flyer_url ? (
               <a
@@ -227,7 +227,7 @@ export default function CourseDetail() {
                   to="/contact"
                   className="mt-4 flex items-center justify-center gap-2 w-full py-3.5 bg-rose-500 hover:bg-rose-600 text-white font-semibold rounded-xl transition-colors duration-200"
                 >
-                  Enquire to Enrol <ArrowRight className="w-4 h-4" />
+                  Contact Us for a Quote <ArrowRight className="w-4 h-4" />
                 </Link>
                 <p className="text-center text-xs text-gray-400 mt-3">We'll get back to you within 1 business day</p>
               </div>
