@@ -53,6 +53,19 @@ The production bundle includes `dist/.htaccess`, which routes direct page refres
 
 Before replacing the current site, back up the existing `public_html` files. Upload the contents inside `dist`, not the `dist` folder itself.
 
+### GitHub Actions FTP deploy
+
+If cPanel Git deployment is blocked by shell access, use the manual GitHub Actions workflow:
+
+`Actions` -> `Deploy test site by FTP` -> `Run workflow`
+
+Add these GitHub repository secrets first:
+
+- `CPANEL_FTP_SERVER`: `ftp.elearningcreations.com.au`
+- `CPANEL_FTP_USERNAME`: the cPanel FTP username
+- `CPANEL_FTP_PASSWORD`: the cPanel FTP password
+- `CPANEL_FTP_SERVER_DIR`: the FTP path for the test subdomain, for example `test.elearningcreations.com.au/`
+
 ## Supabase
 
 The Supabase CLI is installed as a project dev dependency.
